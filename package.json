@@ -1,0 +1,22 @@
+{
+  "name": "gahdzai-backend",
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "description": "Uses Apollo Server and Prisma to handle the backend for the Gahdzai app",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "Alec Simone",
+  "type": "module",
+  "dependencies": {
+    "@apollo/server": "^4.7.5",
+    "graphql": "^16.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.1",
+    "typescript": "^5.1.6"
+  }
+}
