@@ -12,44 +12,24 @@ import { PrismaClient } from "@prisma/client";
 import getUserFromToken from "./utils/user/getUserFromToken.js";
 import createUser from "./resolvers/mutation/user/createUser.js";
 import currentUser from "./resolvers/query/user/currentUser.js";
+import { readFileSync } from "fs";
+import { Resolvers } from "./resolvers-types";
+import logOut from "./resolvers/mutation/user/logOut.js";
+import logIn from "./resolvers/mutation/user/logIn.js";
 
 const { json } = bodyParser;
 const prisma = new PrismaClient();
 
-const typeDefs = `#graphql
-  type User {
-    id: String
-    email: String
-    password: String
-    displayName: String
-    role: Role
-    avatar: String
-    createdAt: String
-    updatedAt: String
-  }
+const typeDefs = readFileSync("./schema.graphql", { encoding: "utf-8" });
 
-  enum Role {
-    USER
-    ADMIN
-  }
-
-  type Query {
-    allUsers: [User]
-    currentUser(id: String): User
-  }
-
-  type Mutation {
-    createUser(displayName: String!, email: String!, password: String!): User
-  }
-`;
-
-const resolvers = {
+const resolvers: Resolvers = {
   Query: {
-    allUsers: () => prisma.user.findMany(),
     currentUser,
   },
   Mutation: {
     createUser,
+    logIn,
+    logOut,
   },
 };
 
