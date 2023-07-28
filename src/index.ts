@@ -21,8 +21,35 @@ const { json } = bodyParser;
 const prisma = new PrismaClient();
 
 const typeDefs = readFileSync("./schema.graphql", { encoding: "utf-8" });
+// const typeDefs = `#graphql
+// type User {
+//   id: String
+//   email: String
+//   password: String
+//   displayName: String
+//   role: Role
+//   avatar: String
+//   createdAt: String
+//   updatedAt: String
+// }
 
-const resolvers: Resolvers = {
+// enum Role {
+//   USER
+//   ADMIN
+// }
+
+// type Query {
+//   currentUser(id: String): User
+// }
+
+// type Mutation {
+//   createUser(displayName: String!, email: String!, password: String!): User
+//   logOut: String
+// }
+
+// `;
+
+const resolvers = {
   Query: {
     currentUser,
   },
