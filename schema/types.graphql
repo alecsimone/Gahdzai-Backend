@@ -1,0 +1,20 @@
+type User {
+  id: String
+  email: String
+  password: String
+  displayName: String
+  role: Role
+  avatar: String
+  createdAt: String
+  updatedAt: String
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+type SuccessMessage {
+  success: Boolean
+  message: String
+}

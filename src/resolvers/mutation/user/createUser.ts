@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { maxAge } from "../../../utils/user/globalConstants.js";
 
 const createUser = async (
   parent,
@@ -16,8 +17,6 @@ const createUser = async (
       password: hash,
     },
   });
-
-  const maxAge = 1000 * 60 * 60 * 24 * 365;
 
   const newUserToken = jwt.sign(user.id, process.env.APP_SECRET);
   ctx.res.cookie("userToken", newUserToken, {

@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "npm run codegen && tsc",
     "start": "npm run compile && node ./dist/src/index.js",
-    "watch": "nodemon --watch src -e js,ts,graphql -x \"npm run start\"",
+    "watch": "nodemon --watch src -e js,ts --watch schema -e ts,graphql -x \"npm run start\"",
     "update": "npx prisma migrate dev && npx prisma generate && npx prisma studio",
     "codegen": "graphql-codegen"
   },
