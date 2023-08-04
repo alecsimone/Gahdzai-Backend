@@ -18,3 +18,12 @@ type SuccessMessage {
   success: Boolean
   message: String
 }
+
+type Candle {
+  open: String!
+  close: String!
+  high: String!
+  low: String!
+  volume: String
+  time: String!
+}

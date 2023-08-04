@@ -1,3 +1,9 @@
 type Query {
   currentUser(id: String): User
+  getCandles(
+    symbol: String!
+    from: String!
+    to: String!
+    resolution: String!
+  ): [Candle]
 }

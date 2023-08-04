@@ -16,6 +16,16 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Candle = {
+  __typename?: 'Candle';
+  close: Scalars['String']['output'];
+  high: Scalars['String']['output'];
+  low: Scalars['String']['output'];
+  open: Scalars['String']['output'];
+  time: Scalars['String']['output'];
+  volume?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
@@ -39,11 +49,20 @@ export type MutationLogInArgs = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
+  getCandles?: Maybe<Array<Maybe<Candle>>>;
 };
 
 
 export type QueryCurrentUserArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetCandlesArgs = {
+  from: Scalars['String']['input'];
+  resolution: Scalars['String']['input'];
+  symbol: Scalars['String']['input'];
+  to: Scalars['String']['input'];
 };
 
 export enum Role {
@@ -142,6 +161,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Candle: ResolverTypeWrapper<Candle>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Role: Role;
@@ -153,11 +173,22 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  Candle: Candle;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   SuccessMessage: SuccessMessage;
   User: User;
+}>;
+
+export type CandleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Candle'] = ResolversParentTypes['Candle']> = ResolversObject<{
+  close?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  high?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  low?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  open?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  volume?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
@@ -168,6 +199,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
+  getCandles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Candle']>>>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
 }>;
 
 export type SuccessMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{
@@ -189,6 +221,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  Candle?: CandleResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SuccessMessage?: SuccessMessageResolvers<ContextType>;
