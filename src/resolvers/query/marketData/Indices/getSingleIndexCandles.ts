@@ -1,42 +1,28 @@
 import fetch from 'node-fetch';
-import mockCandles from './mockData.js';
+import { Candle, candleResponse } from '../stocks/getCandles.js';
 
-export interface candleResponse {
-  s?: 'ok' | 'no_data' | 'error';
-  o?: number[];
-  h?: number[];
-  l?: number[];
-  c?: number[];
-  v?: number[];
-  t?: number[];
-  errmsg?: string;
-}
+const getSingleIndexCandles = async (symbol, from, to, resolution) => {
+  const url = `https://api.marketdata.app/v1/indices/candles/${resolution}/${symbol}?from=${from}&to=${to}`;
+  console.log(`Querying ${symbol}`);
 
-export interface Candle {
-  open: string;
-  high: string;
-  low: string;
-  close: string;
-  volume: string;
-  time: string;
-}
-
-const getCandles = async (
-  parent,
-  { symbol, from, to, resolution },
-  ctx,
-  info
-) => {
-  const url = `https://api.marketdata.app/v1/stocks/candles/${resolution}/${symbol}?from=${from}&to=${to}`;
-  const rawData = await fetch(url);
+  const token = process.env.MARKET_DATA_APP_TOKEN;
+  const rawData = await fetch(url, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
   const data: candleResponse = await rawData.json();
-  console.log(data);
+  console.log(`Data received for ${symbol}`);
 
   if (data.s === 'error') {
     throw new Error(data.errmsg);
   }
 
-  const candles = [];
+  if (data.s === 'no_data') {
+    return [];
+  }
+
+  const candles: Candle[] = [];
   for (let i = 0; i < data.o.length; i += 1) {
     candles.push({
       open: null,
@@ -62,8 +48,7 @@ const getCandles = async (
     });
   });
 
-  // const candles: Candle[] = mockCandles;
   return candles;
 };
 
-export default getCandles;
+export default getSingleIndexCandles;

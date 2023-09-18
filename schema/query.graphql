@@ -6,4 +6,9 @@ type Query {
     to: String!
     resolution: String!
   ): [Candle]
+  getAllIndexCandles(
+    from: String!
+    to: String!
+    resolution: String!
+  ): [CandleCollection]
 }

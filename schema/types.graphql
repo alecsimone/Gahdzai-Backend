@@ -27,3 +27,8 @@ type Candle {
   volume: String
   time: String!
 }
+
+type CandleCollection {
+  symbol: String!
+  candles: [Candle!]!
+}

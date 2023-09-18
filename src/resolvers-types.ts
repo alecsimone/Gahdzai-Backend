@@ -26,6 +26,12 @@ export type Candle = {
   volume?: Maybe<Scalars['String']['output']>;
 };
 
+export type CandleCollection = {
+  __typename?: 'CandleCollection';
+  candles: Array<Candle>;
+  symbol: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
@@ -49,12 +55,20 @@ export type MutationLogInArgs = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
+  getAllIndexCandles?: Maybe<Array<Maybe<CandleCollection>>>;
   getCandles?: Maybe<Array<Maybe<Candle>>>;
 };
 
 
 export type QueryCurrentUserArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetAllIndexCandlesArgs = {
+  from: Scalars['String']['input'];
+  resolution: Scalars['String']['input'];
+  to: Scalars['String']['input'];
 };
 
 
@@ -162,6 +176,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Candle: ResolverTypeWrapper<Candle>;
+  CandleCollection: ResolverTypeWrapper<CandleCollection>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Role: Role;
@@ -174,6 +189,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   Candle: Candle;
+  CandleCollection: CandleCollection;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -191,6 +207,12 @@ export type CandleResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type CandleCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CandleCollection'] = ResolversParentTypes['CandleCollection']> = ResolversObject<{
+  candles?: Resolver<Array<ResolversTypes['Candle']>, ParentType, ContextType>;
+  symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'displayName' | 'email' | 'password'>>;
   logIn?: Resolver<ResolversTypes['SuccessMessage'], ParentType, ContextType, RequireFields<MutationLogInArgs, 'email' | 'password'>>;
@@ -199,6 +221,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
+  getAllIndexCandles?: Resolver<Maybe<Array<Maybe<ResolversTypes['CandleCollection']>>>, ParentType, ContextType, RequireFields<QueryGetAllIndexCandlesArgs, 'from' | 'resolution' | 'to'>>;
   getCandles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Candle']>>>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
 }>;
 
@@ -222,6 +245,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   Candle?: CandleResolvers<ContextType>;
+  CandleCollection?: CandleCollectionResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SuccessMessage?: SuccessMessageResolvers<ContextType>;
