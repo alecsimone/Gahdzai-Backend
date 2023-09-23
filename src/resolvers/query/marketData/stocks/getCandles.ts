@@ -1,16 +1,9 @@
 import fetch from 'node-fetch';
 import mockCandles from './mockData.js';
-
-export interface candleResponse {
-  s?: 'ok' | 'no_data' | 'error';
-  o?: number[];
-  h?: number[];
-  l?: number[];
-  c?: number[];
-  v?: number[];
-  t?: number[];
-  errmsg?: string;
-}
+import { getStockCandlesUrl } from '../queryingFunctions/endpoints.js';
+import queryMarketData, {
+  CandleResponse,
+} from '../queryingFunctions/queryMarketData.js';
 
 export interface Candle {
   open: string;
@@ -27,14 +20,9 @@ const getCandles = async (
   ctx,
   info
 ) => {
-  const url = `https://api.marketdata.app/v1/stocks/candles/${resolution}/${symbol}?from=${from}&to=${to}`;
-  const rawData = await fetch(url);
-  const data: candleResponse = await rawData.json();
-  console.log(data);
+  const url = getStockCandlesUrl({ resolution, symbol, from, to });
 
-  if (data.s === 'error') {
-    throw new Error(data.errmsg);
-  }
+  const data: CandleResponse = await queryMarketData(url);
 
   const candles = [];
   for (let i = 0; i < data.o.length; i += 1) {

@@ -6,9 +6,9 @@ type Query {
     to: String!
     resolution: String!
   ): [Candle]
-  getAllIndexCandles(
+  getAllIndexData(
     from: String!
     to: String!
     resolution: String!
-  ): [CandleCollection]
+  ): [PercentageChanges]
 }
