@@ -4,8 +4,8 @@ import {
   PercentageChanges,
 } from '../../../../resolvers-types.js';
 
-// const indexSymbols = ['SPX', 'DJI', 'COMP', 'RUT'];
-const indexSymbols = ['SPX'];
+const indexSymbols = ['SPX', 'DJI', 'COMP', 'RUT'];
+// const indexSymbols = ['SPX', 'COMP'];
 
 const getAllIndexData = async (parent, { from, to, resolution }, ctx, info) => {
   console.log("Let's get all the index candles");

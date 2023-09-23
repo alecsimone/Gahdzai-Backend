@@ -61,8 +61,8 @@ export type PercentageChanges = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
-  getAllIndexData?: Maybe<Array<Maybe<PercentageChanges>>>;
-  getCandles?: Maybe<Array<Maybe<Candle>>>;
+  getAllIndexData: Array<PercentageChanges>;
+  getCandles: Array<Candle>;
 };
 
 
@@ -237,8 +237,8 @@ export type PercentageChangesResolvers<ContextType = any, ParentType extends Res
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
-  getAllIndexData?: Resolver<Maybe<Array<Maybe<ResolversTypes['PercentageChanges']>>>, ParentType, ContextType, RequireFields<QueryGetAllIndexDataArgs, 'from' | 'resolution' | 'to'>>;
-  getCandles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Candle']>>>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
+  getAllIndexData?: Resolver<Array<ResolversTypes['PercentageChanges']>, ParentType, ContextType, RequireFields<QueryGetAllIndexDataArgs, 'from' | 'resolution' | 'to'>>;
+  getCandles?: Resolver<Array<ResolversTypes['Candle']>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
 }>;
 
 export type SuccessMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{

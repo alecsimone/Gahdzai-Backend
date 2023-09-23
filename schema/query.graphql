@@ -5,10 +5,10 @@ type Query {
     from: String!
     to: String!
     resolution: String!
-  ): [Candle]
+  ): [Candle!]!
   getAllIndexData(
     from: String!
     to: String!
     resolution: String!
-  ): [PercentageChanges]
+  ): [PercentageChanges!]!
 }
