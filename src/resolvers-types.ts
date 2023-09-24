@@ -54,6 +54,8 @@ export type PercentageChangeValue = {
 
 export type PercentageChanges = {
   __typename?: 'PercentageChanges';
+  latestValue: Scalars['Float']['output'];
+  previousClose: Scalars['Float']['output'];
   symbol: Scalars['String']['output'];
   values: Array<PercentageChangeValue>;
 };
@@ -230,6 +232,8 @@ export type PercentageChangeValueResolvers<ContextType = any, ParentType extends
 }>;
 
 export type PercentageChangesResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentageChanges'] = ResolversParentTypes['PercentageChanges']> = ResolversObject<{
+  latestValue?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  previousClose?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   values?: Resolver<Array<ResolversTypes['PercentageChangeValue']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

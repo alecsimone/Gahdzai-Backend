@@ -36,4 +36,6 @@ type PercentageChangeValue {
 type PercentageChanges {
   symbol: String!
   values: [PercentageChangeValue!]!
+  previousClose: Float!
+  latestValue: Float!
 }

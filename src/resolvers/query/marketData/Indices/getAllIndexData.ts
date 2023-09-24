@@ -4,7 +4,7 @@ import {
   PercentageChanges,
 } from '../../../../resolvers-types.js';
 
-const indexSymbols = ['SPX', 'DJI', 'COMP', 'RUT'];
+const indexSymbols = ['SPX', 'COMP', 'DJI', 'RUT'];
 // const indexSymbols = ['SPX', 'COMP'];
 
 const getAllIndexData = async (parent, { from, to, resolution }, ctx, info) => {
@@ -13,19 +13,24 @@ const getAllIndexData = async (parent, { from, to, resolution }, ctx, info) => {
   for (let i = 0; i < indexSymbols.length; i += 1) {
     const symbol = indexSymbols[i];
 
-    const values: Promise<PercentageChangeValue[]> = getSingleIndexData(
-      symbol,
-      from,
-      to,
-      resolution
-    ).catch((e) => {
+    const {
+      values,
+      previousClose,
+      latestValue,
+    }: {
+      values: PercentageChangeValue[];
+      previousClose: number;
+      latestValue: number;
+    } = await getSingleIndexData(symbol, from, to, resolution).catch((e) => {
       console.log(e);
       throw new Error(e);
     });
 
     const percentageChanges = {
       symbol,
-      values: await values,
+      values,
+      previousClose,
+      latestValue,
     };
 
     percentageChangesArray.push(percentageChanges);
