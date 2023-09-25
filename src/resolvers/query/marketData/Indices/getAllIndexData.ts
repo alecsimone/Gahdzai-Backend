@@ -5,10 +5,9 @@ import {
 } from '../../../../resolvers-types.js';
 
 const indexSymbols = ['SPX', 'COMP', 'DJI', 'RUT'];
-// const indexSymbols = ['SPX', 'COMP'];
+// const indexSymbols = ['SPX'];
 
 const getAllIndexData = async (parent, { from, to, resolution }, ctx, info) => {
-  console.log("Let's get all the index candles");
   const promises = [];
   for (const symbol of indexSymbols) {
     promises.push(getSingleIndexData(symbol, from, to, resolution));

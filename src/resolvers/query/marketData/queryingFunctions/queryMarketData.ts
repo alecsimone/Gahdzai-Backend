@@ -25,14 +25,12 @@ export interface quoteResponse {
 }
 
 const queryMarketData = async (url: string) => {
-  console.log(`Querying ${url}`);
   const rawData = await fetch(url, {
     headers: {
       Authorization: getTokenString(),
     },
   });
   const data: CandleResponse = await rawData.json();
-  console.log(`Data received from ${url}`);
 
   if (data.s === 'error') {
     throw new Error(data.errmsg);
