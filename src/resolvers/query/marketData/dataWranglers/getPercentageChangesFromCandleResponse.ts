@@ -9,7 +9,6 @@ const getPercentageChangesFromCandleResponse = (data: CandleResponse) => {
   const candlesByDate = sortCandlesByDate(candles);
 
   const todaysCandles = candlesByDate.at(-1).candles;
-  console.log(todaysCandles.at(-1));
   const previousClose = getPreviousClose(candlesByDate);
 
   const percentageChanges = getPercentageChangesFromCandles(

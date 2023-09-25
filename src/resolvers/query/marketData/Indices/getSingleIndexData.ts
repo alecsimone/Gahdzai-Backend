@@ -15,7 +15,7 @@ const getSingleIndexData = async (
 
   const percentageChanges = getPercentageChangesFromCandleResponse(data);
 
-  return percentageChanges;
+  return { ...percentageChanges, symbol };
 };
 
 export default getSingleIndexData;
