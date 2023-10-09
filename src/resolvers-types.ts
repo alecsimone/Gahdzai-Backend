@@ -26,6 +26,12 @@ export type Candle = {
   volume?: Maybe<Scalars['String']['output']>;
 };
 
+export type CandleSet = {
+  __typename?: 'CandleSet';
+  candles: Array<Candle>;
+  symbol: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
@@ -63,7 +69,7 @@ export type PercentageChanges = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
-  getAllIndexData: Array<PercentageChanges>;
+  getAllIndexData: Array<CandleSet>;
   getCandles: Array<Candle>;
 };
 
@@ -184,6 +190,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Candle: ResolverTypeWrapper<Candle>;
+  CandleSet: ResolverTypeWrapper<CandleSet>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   PercentageChangeValue: ResolverTypeWrapper<PercentageChangeValue>;
@@ -199,6 +206,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   Candle: Candle;
+  CandleSet: CandleSet;
   Float: Scalars['Float']['output'];
   Mutation: {};
   PercentageChangeValue: PercentageChangeValue;
@@ -216,6 +224,12 @@ export type CandleResolvers<ContextType = any, ParentType extends ResolversParen
   open?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   volume?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CandleSetResolvers<ContextType = any, ParentType extends ResolversParentTypes['CandleSet'] = ResolversParentTypes['CandleSet']> = ResolversObject<{
+  candles?: Resolver<Array<ResolversTypes['Candle']>, ParentType, ContextType>;
+  symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -241,7 +255,7 @@ export type PercentageChangesResolvers<ContextType = any, ParentType extends Res
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
-  getAllIndexData?: Resolver<Array<ResolversTypes['PercentageChanges']>, ParentType, ContextType, RequireFields<QueryGetAllIndexDataArgs, 'from' | 'resolution' | 'to'>>;
+  getAllIndexData?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetAllIndexDataArgs, 'from' | 'resolution' | 'to'>>;
   getCandles?: Resolver<Array<ResolversTypes['Candle']>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
 }>;
 
@@ -265,6 +279,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   Candle?: CandleResolvers<ContextType>;
+  CandleSet?: CandleSetResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PercentageChangeValue?: PercentageChangeValueResolvers<ContextType>;
   PercentageChanges?: PercentageChangesResolvers<ContextType>;

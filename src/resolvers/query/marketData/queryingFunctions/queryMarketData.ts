@@ -25,11 +25,24 @@ export interface quoteResponse {
 }
 
 const queryMarketData = async (url: string) => {
+  console.log(`Querying ${url}`);
   const rawData = await fetch(url, {
     headers: {
       Authorization: getTokenString(),
     },
   });
+
+  const queryLimit = parseInt(rawData.headers.get('x-api-ratelimit-limit'), 10);
+  const remainingQueries = parseInt(
+    rawData.headers.get('x-api-ratelimit-remaining'),
+    10
+  );
+  console.log(
+    `MarketData.app API usage: ${
+      queryLimit - remainingQueries
+    }/${queryLimit} Daily Requests`
+  );
+
   const data: CandleResponse = await rawData.json();
 
   if (data.s === 'error') {

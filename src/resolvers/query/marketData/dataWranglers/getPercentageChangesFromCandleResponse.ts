@@ -4,22 +4,39 @@ import getPreviousClose from './getPreviousClose.js';
 import makeCloseOnlyCandles from './makeCloseOnlyCandles.js';
 import sortCandlesByDate from './sortCandlesByDate.js';
 
-const getPercentageChangesFromCandleResponse = (data: CandleResponse) => {
-  const candles = makeCloseOnlyCandles(data);
-  const candlesByDate = sortCandlesByDate(candles);
+interface PercentageChangeGetterInterface {
+  data: CandleResponse;
+  from: string;
+  to: string;
+}
 
-  const todaysCandles = candlesByDate.at(-1).candles;
-  const previousClose = getPreviousClose(candlesByDate);
+const getPercentageChangesFromCandleResponse = ({
+  data,
+  from,
+  to,
+}: PercentageChangeGetterInterface) => {
+  const candles = makeCloseOnlyCandles(data);
+  candles.sort((a, b) => {
+    return parseInt(a.time, 10) - parseInt(b.time, 10);
+  });
+
+  const trimmedCandles = candles.filter((candle) => {
+    if (candle.time < from || candle.time > to) {
+      return false;
+    }
+    return true;
+  });
+  const initialValue = parseInt(trimmedCandles[0].close, 10);
 
   const percentageChanges = getPercentageChangesFromCandles(
-    todaysCandles,
-    previousClose
+    trimmedCandles,
+    initialValue
   );
 
   return {
     values: percentageChanges,
-    previousClose,
-    latestValue: parseFloat(todaysCandles.at(-1).close),
+    previousClose: initialValue,
+    latestValue: parseFloat(trimmedCandles.at(-1).close),
   };
 };
 

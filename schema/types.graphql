@@ -28,6 +28,11 @@ type Candle {
   time: String!
 }
 
+type CandleSet {
+  symbol: String!
+  candles: [Candle!]!
+}
+
 type PercentageChangeValue {
   percentageChange: Float!
   time: String!
