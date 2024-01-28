@@ -69,8 +69,7 @@ export type PercentageChanges = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
-  getAllIndexData: Array<CandleSet>;
-  getCandles: Array<Candle>;
+  getCandlesForSymbols: Array<CandleSet>;
 };
 
 
@@ -79,17 +78,11 @@ export type QueryCurrentUserArgs = {
 };
 
 
-export type QueryGetAllIndexDataArgs = {
+export type QueryGetCandlesForSymbolsArgs = {
   from: Scalars['String']['input'];
   resolution: Scalars['String']['input'];
-  to: Scalars['String']['input'];
-};
-
-
-export type QueryGetCandlesArgs = {
-  from: Scalars['String']['input'];
-  resolution: Scalars['String']['input'];
-  symbol: Scalars['String']['input'];
+  symbolType: Scalars['String']['input'];
+  symbols: Array<Scalars['String']['input']>;
   to: Scalars['String']['input'];
 };
 
@@ -255,8 +248,7 @@ export type PercentageChangesResolvers<ContextType = any, ParentType extends Res
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
-  getAllIndexData?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetAllIndexDataArgs, 'from' | 'resolution' | 'to'>>;
-  getCandles?: Resolver<Array<ResolversTypes['Candle']>, ParentType, ContextType, RequireFields<QueryGetCandlesArgs, 'from' | 'resolution' | 'symbol' | 'to'>>;
+  getCandlesForSymbols?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetCandlesForSymbolsArgs, 'from' | 'resolution' | 'symbolType' | 'symbols' | 'to'>>;
 }>;
 
 export type SuccessMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{

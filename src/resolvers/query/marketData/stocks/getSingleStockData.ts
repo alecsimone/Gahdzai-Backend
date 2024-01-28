@@ -1,19 +1,21 @@
-import getPercentageChangesFromCandleResponse from '../dataWranglers/getPercentageChangesFromCandleResponse.js';
 import { CandleSet } from '../../../../resolvers-types.js';
 import makeCandlesFromData from '../dataWranglers/makeCandlesFromData.js';
-import { getIndexCandlesUrl } from '../queryingFunctions/endpoints.js';
+import { getStockCandlesUrl } from '../queryingFunctions/endpoints.js';
 import queryMarketData, {
   CandleResponse,
 } from '../queryingFunctions/queryMarketData.js';
 
-const getSingleIndexData = async (
+// * Returns a candle set for a given stock symbol
+
+const getSingleStockData = async (
   symbol: string,
   from: string,
   to: string,
   resolution: string
 ): Promise<CandleSet> => {
-  const candlesUrl = getIndexCandlesUrl({ resolution, symbol, from, to });
+  const candlesUrl = getStockCandlesUrl({ resolution, symbol, from, to });
   const data: CandleResponse = await queryMarketData(candlesUrl);
+  console.log(data);
 
   const allCandles = makeCandlesFromData(data);
   const candles = allCandles.filter((candle) => {
@@ -28,4 +30,4 @@ const getSingleIndexData = async (
   return { symbol, candles };
 };
 
-export default getSingleIndexData;
+export default getSingleStockData;

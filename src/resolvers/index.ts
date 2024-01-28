@@ -3,14 +3,12 @@ import logIn from './mutation/user/logIn.js';
 import createUser from './mutation/user/createUser.js';
 import currentUser from './query/user/currentUser.js';
 import { Resolvers } from '../resolvers-types.js';
-import getCandles from './query/marketData/stocks/getCandles.js';
-import getAllIndexData from './query/marketData/Indices/getAllIndexData.js';
+import getCandlesForSymbols from './query/marketData/getCandlesForSymbols.js';
 
 const resolvers: Resolvers = {
   Query: {
     currentUser,
-    getCandles,
-    getAllIndexData,
+    getCandlesForSymbols,
   },
   Mutation: {
     createUser,

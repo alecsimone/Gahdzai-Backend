@@ -23,9 +23,11 @@ const makeCandlesFromData = (data: CandleResponse): Candle[] => {
     { abbreviation: 't', full: 'time' },
   ];
   parameters.forEach((obj) => {
-    data[obj.abbreviation].forEach((value, index) => {
-      candles[index][obj.full] = value;
-    });
+    if (data[obj.abbreviation] != null) {
+      data[obj.abbreviation].forEach((value, index) => {
+        candles[index][obj.full] = value;
+      });
+    }
   });
 
   return candles;
