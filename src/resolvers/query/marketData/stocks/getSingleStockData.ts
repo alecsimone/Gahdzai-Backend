@@ -4,6 +4,7 @@ import { getStockCandlesUrl } from '../queryingFunctions/endpoints.js';
 import queryMarketData, {
   CandleResponse,
 } from '../queryingFunctions/queryMarketData.js';
+// import candles from './mockData.js';
 
 // * Returns a candle set for a given stock symbol
 
@@ -15,7 +16,6 @@ const getSingleStockData = async (
 ): Promise<CandleSet> => {
   const candlesUrl = getStockCandlesUrl({ resolution, symbol, from, to });
   const data: CandleResponse = await queryMarketData(candlesUrl);
-  console.log(data);
 
   const allCandles = makeCandlesFromData(data);
   const candles = allCandles.filter((candle) => {
