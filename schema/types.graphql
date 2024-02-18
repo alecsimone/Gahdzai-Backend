@@ -44,3 +44,14 @@ type PercentageChanges {
   previousClose: Float!
   latestValue: Float!
 }
+
+enum Timespan {
+  second
+  minute
+  hour
+  day
+  week
+  month
+  quarter
+  year
+}

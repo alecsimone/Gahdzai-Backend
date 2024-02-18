@@ -1,7 +1,9 @@
 import { Candle } from '../../../../resolvers-types.js';
-import { CandleResponse } from '../queryingFunctions/queryMarketData.js';
+import { MarketDataCandleResponse } from '../queryingFunctions/queryMarketData.js';
 
-const makeCandlesFromData = (data: CandleResponse): Candle[] => {
+const makeCandlesFromMarketDataData = (
+  data: MarketDataCandleResponse
+): Candle[] => {
   const candles = [];
   for (let i = 0; i < data.o.length; i += 1) {
     candles.push({
@@ -33,4 +35,4 @@ const makeCandlesFromData = (data: CandleResponse): Candle[] => {
   return candles;
 };
 
-export default makeCandlesFromData;
+export default makeCandlesFromMarketDataData;

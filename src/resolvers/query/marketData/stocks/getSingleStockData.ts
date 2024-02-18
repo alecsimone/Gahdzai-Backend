@@ -1,9 +1,15 @@
 import { CandleSet } from '../../../../resolvers-types.js';
-import makeCandlesFromData from '../dataWranglers/makeCandlesFromData.js';
+import makeCandlesFromMarketDataData from '../dataWranglers/makeCandlesFromMarketDataData.js';
 import { getStockCandlesUrl } from '../queryingFunctions/endpoints.js';
 import queryMarketData, {
-  CandleResponse,
+  MarketDataCandleResponse,
 } from '../queryingFunctions/queryMarketData.js';
+import { Timespans } from '../queryingFunctions/endpoints.js';
+import queryPolygon, {
+  PolygonCandleResponseSuccess,
+} from '../queryingFunctions/queryPolygon.js';
+import makeCandlesFromPolygonData from '../dataWranglers/makeCandlesFromPolygonData.js';
+import filterOutAfterMarket from './filterOutAfterMarket.js';
 // import candles from './mockData.js';
 
 // * Returns a candle set for a given stock symbol
@@ -12,21 +18,21 @@ const getSingleStockData = async (
   symbol: string,
   from: string,
   to: string,
-  resolution: string
+  timespan: Timespans,
+  timespanMultiplier: number
 ): Promise<CandleSet> => {
-  const candlesUrl = getStockCandlesUrl({ resolution, symbol, from, to });
-  const data: CandleResponse = await queryMarketData(candlesUrl);
-
-  const allCandles = makeCandlesFromData(data);
-  const candles = allCandles.filter((candle) => {
-    if (
-      parseInt(candle.time, 10) < parseInt(from, 10) ||
-      parseInt(candle.time, 10) > parseInt(to, 10)
-    ) {
-      return false;
-    }
-    return true;
+  const candlesUrl = getStockCandlesUrl({
+    timespan,
+    timespanMultiplier,
+    symbol,
+    from,
+    to,
   });
+  const data: PolygonCandleResponseSuccess = await queryPolygon(candlesUrl);
+
+  const allCandles = makeCandlesFromPolygonData(data);
+  const candles = filterOutAfterMarket(allCandles);
+
   return { symbol, candles };
 };
 

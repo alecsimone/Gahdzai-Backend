@@ -3,7 +3,7 @@ import getSingleStockData from './stocks/getSingleStockData.js';
 
 const getCandlesForSymbols = async (
   parent,
-  { symbols, symbolType, from, to, resolution },
+  { symbols, symbolType, from, to, timespan, timespanMultiplier },
   ctx,
   info
 ) => {
@@ -11,11 +11,15 @@ const getCandlesForSymbols = async (
 
   if (symbolType === 'index') {
     for (const symbol of symbols) {
-      promises.push(getSingleIndexData(symbol, from, to, resolution));
+      promises.push(
+        getSingleIndexData(symbol, from, to, timespan, timespanMultiplier)
+      );
     }
   } else if (symbolType === 'stock') {
     for (const symbol of symbols) {
-      promises.push(getSingleStockData(symbol, from, to, resolution));
+      promises.push(
+        getSingleStockData(symbol, from, to, timespan, timespanMultiplier)
+      );
     }
   }
 

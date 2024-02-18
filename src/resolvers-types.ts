@@ -80,9 +80,10 @@ export type QueryCurrentUserArgs = {
 
 export type QueryGetCandlesForSymbolsArgs = {
   from: Scalars['String']['input'];
-  resolution: Scalars['String']['input'];
   symbolType: Scalars['String']['input'];
   symbols: Array<Scalars['String']['input']>;
+  timespan: Timespan;
+  timespanMultiplier: Scalars['Int']['input'];
   to: Scalars['String']['input'];
 };
 
@@ -96,6 +97,17 @@ export type SuccessMessage = {
   message?: Maybe<Scalars['String']['output']>;
   success?: Maybe<Scalars['Boolean']['output']>;
 };
+
+export enum Timespan {
+  Day = 'day',
+  Hour = 'hour',
+  Minute = 'minute',
+  Month = 'month',
+  Quarter = 'quarter',
+  Second = 'second',
+  Week = 'week',
+  Year = 'year'
+}
 
 export type User = {
   __typename?: 'User';
@@ -185,6 +197,7 @@ export type ResolversTypes = ResolversObject<{
   Candle: ResolverTypeWrapper<Candle>;
   CandleSet: ResolverTypeWrapper<CandleSet>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   PercentageChangeValue: ResolverTypeWrapper<PercentageChangeValue>;
   PercentageChanges: ResolverTypeWrapper<PercentageChanges>;
@@ -192,6 +205,7 @@ export type ResolversTypes = ResolversObject<{
   Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   SuccessMessage: ResolverTypeWrapper<SuccessMessage>;
+  Timespan: Timespan;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -201,6 +215,7 @@ export type ResolversParentTypes = ResolversObject<{
   Candle: Candle;
   CandleSet: CandleSet;
   Float: Scalars['Float']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   PercentageChangeValue: PercentageChangeValue;
   PercentageChanges: PercentageChanges;
@@ -248,7 +263,7 @@ export type PercentageChangesResolvers<ContextType = any, ParentType extends Res
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
-  getCandlesForSymbols?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetCandlesForSymbolsArgs, 'from' | 'resolution' | 'symbolType' | 'symbols' | 'to'>>;
+  getCandlesForSymbols?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetCandlesForSymbolsArgs, 'from' | 'symbolType' | 'symbols' | 'timespan' | 'timespanMultiplier' | 'to'>>;
 }>;
 
 export type SuccessMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{

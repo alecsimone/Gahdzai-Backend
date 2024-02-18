@@ -1,11 +1,11 @@
-import { CandleResponse } from '../queryingFunctions/queryMarketData.js';
+import { MarketDataCandleResponse } from '../queryingFunctions/queryMarketData.js';
 import getPercentageChangesFromCandles from './getPercentageChangesFromCandles.js';
 import getPreviousClose from './getPreviousClose.js';
 import makeCloseOnlyCandles from './makeCloseOnlyCandles.js';
 import sortCandlesByDate from './sortCandlesByDate.js';
 
 interface PercentageChangeGetterInterface {
-  data: CandleResponse;
+  data: MarketDataCandleResponse;
   from: string;
   to: string;
 }

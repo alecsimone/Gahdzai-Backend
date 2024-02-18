@@ -5,6 +5,7 @@ type Query {
     symbolType: String!
     from: String!
     to: String!
-    resolution: String!
+    timespan: Timespan!
+    timespanMultiplier: Int!
   ): [CandleSet!]!
 }

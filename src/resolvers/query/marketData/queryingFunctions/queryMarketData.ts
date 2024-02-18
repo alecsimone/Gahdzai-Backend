@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import getTokenString from './getTokenString.js';
 
-export interface CandleResponse {
+export interface MarketDataCandleResponse {
   s?: 'ok' | 'no_data' | 'error';
   o?: number[];
   h?: number[];
@@ -25,10 +25,9 @@ export interface quoteResponse {
 }
 
 const queryMarketData = async (url: string) => {
-  console.log(`Querying ${url}`);
   const rawData = await fetch(url, {
     headers: {
-      Authorization: getTokenString(),
+      Authorization: getTokenString('marketData'),
     },
   });
 
@@ -43,7 +42,7 @@ const queryMarketData = async (url: string) => {
     }/${queryLimit} Daily Requests`
   );
 
-  const data: CandleResponse = await rawData.json();
+  const data: MarketDataCandleResponse = await rawData.json();
 
   if (data.s === 'error') {
     throw new Error(data.errmsg);
