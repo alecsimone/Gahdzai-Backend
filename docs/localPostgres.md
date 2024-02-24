@@ -1,28 +1,30 @@
-Some notes on how I created a local postgres database for when I need to replicate it:
+# Local Postgres Database
 
-# Installation
+Some notes on how I set it up in case I need to replicate it
+
+## Installation
 
 I followed [This guide](https://www.prisma.io/dataguide/postgresql/setting-up-a-local-postgresql-database#setting-up-postgresql-on-windows) for how to install postgres locally. This part, however, was extremely straightforward
 
-# Setup
+## Setup
 
 To run postgres on my Windows installation, I had to run the specific shell that was installed with postgres. This is called SQL Shell (psql) and can be found by using the Windows search bar.
 
 I then ran the command
 
-```
+```sql
 CREATE DATABASE gahdzai;
 ```
 
 in that shell. The semicolon at the end of the line is important.
 
-# Connection
+### Connection
 
 I connected to this database by just modifying database lines in the .env file.
 
 Specifically, I created 3 new lines
 
-```
+```env
 DATABASE_URL="postgresql://user:password@localhost:5432/gahdzai
 DATABASE_MASTER_USERNAME="user"
 DATABASE_MASTER_PASSWORD="password"
@@ -32,21 +34,21 @@ Where user and password are the superuser values I set up when installing postgr
 
 I believe I should also be able to figure out how to create users for the gahdzai database too and use those, but I haven't done that and the superuser works
 
-# Prisma
+## Prisma
 
 I then had to initiate prisma on the new database. I simply did this by running
 
-```
+```bash
 npx prisma migrate dev
 ```
 
 in a vscode terminal window
 
-# Running DB
+## Running DB
 
 It seems the SQL shell window does not need to remain open for the server to keep running. I'm not sure yet if I need to restart it every time I reboot my computer or if it starts with windows or something like that.
 
-# PSQL
+## PSQL
 
 Ok, so I was very confused by this for a bit so I'm going to try to write out my understanding.
 
@@ -69,7 +71,7 @@ I followed [this guide](https://stackoverflow.com/questions/44753191/how-to-chan
 
 Now I can execute commands as they're given in the PostgreSQL docs
 
-# Backup and Restore
+## Backup and Restore
 
 Based on [this part](https://www.postgresql.org/docs/current/backup-dump.html) of the PostgreSQL.org docs.
 
@@ -77,21 +79,21 @@ Based on [this part](https://www.postgresql.org/docs/current/backup-dump.html) o
 
 The command here is
 
-```
-$ pg_dump dbname > dumpfile
+```bash
+pg_dump dbname > dumpfile
 ```
 
-this will create a text file called dumpfile in the current working directory that has the contents of database dbname in it.
+this will create a text file called "dumpfile" in the current working directory that has the contents of database dbname in it.
 
-To resore that file, use the command
+To restore that file, use the command
 
-```
-$ psql dbname < dumpfile
+```bash
+psql dbname < dumpfile
 ```
 
 Note that this will not create the database dbname, so it has to already exist, and it should be created with template0 as the dump is relative to that template. To do that, use the command
 
-```
+```bash
 $createdb -T template0 dbname
 ```
 

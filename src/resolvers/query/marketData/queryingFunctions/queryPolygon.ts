@@ -32,7 +32,7 @@ export interface PolygonUnauthorized {
   message: string;
 }
 
-interface PolygonError {
+export interface PolygonError {
   status: 'ERROR';
   request_id: string;
   error: string;
@@ -62,7 +62,6 @@ const queryPolygon: Signature = async (url) => {
     throw new Error(data.error);
   }
 
-  const { queryCount, resultsCount, status } = data;
   return data;
 };
 

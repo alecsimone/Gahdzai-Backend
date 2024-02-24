@@ -68,6 +68,9 @@ export const getStockCandlesUrl = ({
   return `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timespanMultiplier}/${timespan}/${adjustedFrom}/${adjustedTo}?adjusted=true&sort=asc&limit=5000`;
 };
 
+export const getGroupedDailyBarsUrl = (date) =>
+  `https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${date}?adjusted=true`;
+
 // Old marketdata.app
 // export const getStockCandlesUrl = ({
 //   resolution,

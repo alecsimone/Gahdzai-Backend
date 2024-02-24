@@ -1,4 +1,5 @@
 import getSingleIndexData from './Indices/getSingleIndexData.js';
+import getBulkStockData from './stocks/getBulkStockData.js';
 import getSingleStockData from './stocks/getSingleStockData.js';
 
 const getCandlesForSymbols = async (
@@ -16,10 +17,15 @@ const getCandlesForSymbols = async (
       );
     }
   } else if (symbolType === 'stock') {
-    for (const symbol of symbols) {
-      promises.push(
-        getSingleStockData(symbol, from, to, timespan, timespanMultiplier)
-      );
+    // TODO Upgrade to paid polygon plan and use this first query for any amount of symbols
+    if (symbols.length < 5) {
+      for (const symbol of symbols) {
+        promises.push(
+          getSingleStockData(symbol, from, to, timespan, timespanMultiplier)
+        );
+      }
+    } else {
+      return await getBulkStockData(symbols);
     }
   }
 
