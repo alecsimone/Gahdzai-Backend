@@ -8,4 +8,9 @@ type Query {
     timespan: Timespan!
     timespanMultiplier: Int!
   ): [CandleSet!]!
+  getDataForSymbols(
+    symbols: [String!]!
+    from: String!
+    to: String!
+  ): [DataSeries!]!
 }

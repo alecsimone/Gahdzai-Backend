@@ -38,13 +38,28 @@ type PolygonBulkResponse =
   | PolygonError;
 
 const getBulkStockData: Signature = async (symbols) => {
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
+  // const today = new Date();
+  // const yesterday = new Date(today);
+  // yesterday.setDate(today.getDate() - 1);
 
-  const year = yesterday.getFullYear();
-  const month = (yesterday.getMonth() + 1).toString().padStart(2, '0');
-  const day = yesterday.getDate().toString().padStart(2, '0');
+  const today = new Date();
+  let dayOfWeek = today.getDay();
+
+  let difference = 1;
+  // If today is Sunday or Saturday, go back to the previous Friday
+  if (dayOfWeek === 0) {
+    difference = 2;
+  } else if (dayOfWeek === 1) {
+    difference = 3;
+  }
+
+  // Create a new date object for the most recent weekday
+  const mostRecentWeekday = new Date(today);
+  mostRecentWeekday.setDate(today.getDate() - difference);
+
+  const year = mostRecentWeekday.getFullYear();
+  const month = (mostRecentWeekday.getMonth() + 1).toString().padStart(2, '0');
+  const day = mostRecentWeekday.getDate().toString().padStart(2, '0');
 
   const formattedYesterday = `${year}-${month}-${day}`;
 
@@ -62,6 +77,10 @@ const getBulkStockData: Signature = async (symbols) => {
   }
   if (response.status === 'ERROR') {
     throw new Error(response.error);
+  }
+  if (response.resultsCount === 0) {
+    console.log(`Query URL: ${bulkStockDataUrl}`);
+    throw new Error('No results found.');
   }
 
   const fullData = response.results;

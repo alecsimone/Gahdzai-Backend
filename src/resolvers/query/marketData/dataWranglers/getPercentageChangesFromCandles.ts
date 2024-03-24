@@ -1,6 +1,10 @@
-import { PercentageChangeValue } from '../../../../resolvers-types.js';
 import makeSafeDecimals from '../../../../utils/makeSafeDecimals.js';
 import { CloseOnlyCandles } from './makeCloseOnlyCandles.js';
+
+interface PercentageChangeValue {
+  time: string;
+  percentageChange: number;
+}
 
 const getPercentageChangesFromCandles = (
   candles: CloseOnlyCandles[],

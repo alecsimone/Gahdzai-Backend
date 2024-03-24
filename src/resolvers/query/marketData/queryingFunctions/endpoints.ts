@@ -68,7 +68,7 @@ export const getStockCandlesUrl = ({
   return `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timespanMultiplier}/${timespan}/${adjustedFrom}/${adjustedTo}?adjusted=true&sort=asc&limit=5000`;
 };
 
-export const getGroupedDailyBarsUrl = (date) =>
+export const getGroupedDailyBarsUrl = (date: string) =>
   `https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${date}?adjusted=true`;
 
 // Old marketdata.app
@@ -79,3 +79,6 @@ export const getGroupedDailyBarsUrl = (date) =>
 //   to,
 // }: CandlesParameters) =>
 //   `https://api.marketdata.app/v1/stocks/candles/${resolution}/${symbol}?from=${from}&to=${to}`;
+
+export const getFredUrl = (seriesID: string, start: string, end: string) =>
+  `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesID}&observation_start=${start}&observation_end=${end}&frequency=d&api_key=${process.env.FRED_API_KEY}&file_type=json`;

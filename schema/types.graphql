@@ -33,16 +33,15 @@ type CandleSet {
   candles: [Candle!]!
 }
 
-type PercentageChangeValue {
-  percentageChange: Float!
+type DataPoint {
+  value: Float!
   time: String!
 }
 
-type PercentageChanges {
+type DataSeries {
   symbol: String!
-  values: [PercentageChangeValue!]!
-  previousClose: Float!
-  latestValue: Float!
+  dataPoints: [DataPoint]!
+  unit: String
 }
 
 enum Timespan {

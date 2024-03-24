@@ -32,6 +32,19 @@ export type CandleSet = {
   symbol: Scalars['String']['output'];
 };
 
+export type DataPoint = {
+  __typename?: 'DataPoint';
+  time: Scalars['String']['output'];
+  value: Scalars['Float']['output'];
+};
+
+export type DataSeries = {
+  __typename?: 'DataSeries';
+  dataPoints: Array<Maybe<DataPoint>>;
+  symbol: Scalars['String']['output'];
+  unit?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
@@ -52,24 +65,11 @@ export type MutationLogInArgs = {
   password: Scalars['String']['input'];
 };
 
-export type PercentageChangeValue = {
-  __typename?: 'PercentageChangeValue';
-  percentageChange: Scalars['Float']['output'];
-  time: Scalars['String']['output'];
-};
-
-export type PercentageChanges = {
-  __typename?: 'PercentageChanges';
-  latestValue: Scalars['Float']['output'];
-  previousClose: Scalars['Float']['output'];
-  symbol: Scalars['String']['output'];
-  values: Array<PercentageChangeValue>;
-};
-
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
   getCandlesForSymbols: Array<CandleSet>;
+  getDataForSymbols: Array<DataSeries>;
 };
 
 
@@ -84,6 +84,13 @@ export type QueryGetCandlesForSymbolsArgs = {
   symbols: Array<Scalars['String']['input']>;
   timespan: Timespan;
   timespanMultiplier: Scalars['Int']['input'];
+  to: Scalars['String']['input'];
+};
+
+
+export type QueryGetDataForSymbolsArgs = {
+  from: Scalars['String']['input'];
+  symbols: Array<Scalars['String']['input']>;
   to: Scalars['String']['input'];
 };
 
@@ -196,11 +203,11 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Candle: ResolverTypeWrapper<Candle>;
   CandleSet: ResolverTypeWrapper<CandleSet>;
+  DataPoint: ResolverTypeWrapper<DataPoint>;
+  DataSeries: ResolverTypeWrapper<DataSeries>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  PercentageChangeValue: ResolverTypeWrapper<PercentageChangeValue>;
-  PercentageChanges: ResolverTypeWrapper<PercentageChanges>;
   Query: ResolverTypeWrapper<{}>;
   Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -214,11 +221,11 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   Candle: Candle;
   CandleSet: CandleSet;
+  DataPoint: DataPoint;
+  DataSeries: DataSeries;
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
-  PercentageChangeValue: PercentageChangeValue;
-  PercentageChanges: PercentageChanges;
   Query: {};
   String: Scalars['String']['output'];
   SuccessMessage: SuccessMessage;
@@ -241,29 +248,29 @@ export type CandleSetResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type DataPointResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataPoint'] = ResolversParentTypes['DataPoint']> = ResolversObject<{
+  time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DataSeriesResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSeries'] = ResolversParentTypes['DataSeries']> = ResolversObject<{
+  dataPoints?: Resolver<Array<Maybe<ResolversTypes['DataPoint']>>, ParentType, ContextType>;
+  symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  unit?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'displayName' | 'email' | 'password'>>;
   logIn?: Resolver<ResolversTypes['SuccessMessage'], ParentType, ContextType, RequireFields<MutationLogInArgs, 'email' | 'password'>>;
   logOut?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 }>;
 
-export type PercentageChangeValueResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentageChangeValue'] = ResolversParentTypes['PercentageChangeValue']> = ResolversObject<{
-  percentageChange?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type PercentageChangesResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentageChanges'] = ResolversParentTypes['PercentageChanges']> = ResolversObject<{
-  latestValue?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  previousClose?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  values?: Resolver<Array<ResolversTypes['PercentageChangeValue']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryCurrentUserArgs>>;
   getCandlesForSymbols?: Resolver<Array<ResolversTypes['CandleSet']>, ParentType, ContextType, RequireFields<QueryGetCandlesForSymbolsArgs, 'from' | 'symbolType' | 'symbols' | 'timespan' | 'timespanMultiplier' | 'to'>>;
+  getDataForSymbols?: Resolver<Array<ResolversTypes['DataSeries']>, ParentType, ContextType, RequireFields<QueryGetDataForSymbolsArgs, 'from' | 'symbols' | 'to'>>;
 }>;
 
 export type SuccessMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{
@@ -287,9 +294,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = ResolversObject<{
   Candle?: CandleResolvers<ContextType>;
   CandleSet?: CandleSetResolvers<ContextType>;
+  DataPoint?: DataPointResolvers<ContextType>;
+  DataSeries?: DataSeriesResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  PercentageChangeValue?: PercentageChangeValueResolvers<ContextType>;
-  PercentageChanges?: PercentageChangesResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SuccessMessage?: SuccessMessageResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
